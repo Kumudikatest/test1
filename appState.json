@@ -1,1 +1,139 @@
-{"EDITOR_STATE":{"allProjectFiles":{"cc2663a5-eb9b-46a1-a9e3-6f23cfeb7fa9":{"id":"cc2663a5-eb9b-46a1-a9e3-6f23cfeb7fa9","parent":null,"name":"test1","type":"DIRECTORY","isDirectory":true,"children":["01a03728-bdce-43bf-8129-39dd1ef7f7cd","3466b88d-c129-41f5-adbf-8a6e9bdc3a4d"],"isRemovable":false,"filePath":"test1"},"01a03728-bdce-43bf-8129-39dd1ef7f7cd":{"id":"01a03728-bdce-43bf-8129-39dd1ef7f7cd","parent":"cc2663a5-eb9b-46a1-a9e3-6f23cfeb7fa9","name":"lambda.js","type":"LAMBDA_FILE","isDirectory":false,"children":[],"isRemovable":true,"filePath":"test1/lambda.js","code":"let AWS = require('aws-sdk');\nlet connectionManager = require('./ConnectionManager');\nlet SL_AWS = require('slappforge-sdk-aws');\nconst rds = new SL_AWS.RDS(connectionManager);\nconst cognito_idp = new AWS.CognitoIdentityServiceProvider();\nexports.handler = function (event, context, callback) {\n\tcognito_idp.listUsers({\n\t\tUserPoolId: \"us-east-1_nnX97LbM7\",\n\t\tFilter: 'email=\"kumudika@adroitlogic.com\"'\n\t}, function (error, data) {\n\t\tif (error) {\n\t\t\t// implement error handling logic here\n\t\t\tconsole.log(\"Fail list\");\n\t\t\tthrow error;\n\t\t}\n\t\t// your logic goes within this block\n\t\telse {\n\t\t\tconsole.log(\"Pass list\");\n\t\t\tconsole.log(data);\n\t\t}\n\t});\n\tcognito_idp.adminGetUser({\n\t\tUserPoolId: \"us-east-1_nnX97LbM7\", /* required */\n\t\tUsername: \"Kumudika\" /* required */\n\t}, function (error, data) {\n\t\tif (error) {\n\t\t\t// implement error handling logic here\n\t\t\tconsole.log(\"Fail Get\");\n\t\t\tthrow error;\n\t\t}\n\t\t// your logic goes within this block\n\t\telse {\n\t\t\tconsole.log(\"Pass Get\");\n\t\t\tconsole.log(data);\n\t\t}\n\t});\n\tcognito_idp.adminEnableUser({\n\t\tUserPoolId: \"us-east-1_nnX97LbM7\", /* required */\n\t\tUsername: \"Kumudika\" /* required */\n\t}, function (error, data) {\n\t\tif (error) {\n\t\t\t// implement error handling logic here\n\t\t\tconsole.log(\"Fail enable\");\n\t\t\tthrow error;\n\t\t}\n\t\t// your logic goes within this block\n\t\telse {\n\t\t\tconsole.log(\"Pass enable\");\n\t\t\tconsole.log(data);\n\t\t}\n\t});\n\n\t// You must always end/destroy the DB connection after it's used\n\trds.beginTransaction({\n\t\tinstanceIdentifier: 'ktestcognitor'\n\t}, function (error, connection) {\n\t\tif (error) { throw err; }\n\t});\n\n\n\tcallback(null, 'Successfully executed');\n}","triggers":[{"resourceName":"apigusEast1KTestCognitotest1any","config":{}}],"config":{"memory":128,"timeout":60,"runtime":"nodejs8.10"},"version":231,"syncVersion":104},"3466b88d-c129-41f5-adbf-8a6e9bdc3a4d":{"id":"3466b88d-c129-41f5-adbf-8a6e9bdc3a4d","parent":"cc2663a5-eb9b-46a1-a9e3-6f23cfeb7fa9","name":"ConnectionManager.js","type":"JS_FILE","isDirectory":false,"children":[],"isRemovable":true,"filePath":"test1/ConnectionManager.js","code":"module.exports=function(){\n\n    this.dbConnections = [];\n\n    this.dbConnections[\"ktestcognitor\"] = {\n            host: \"ktestcognitor.czndmdv7dw6d.us-east-1.rds.amazonaws.com\",\n            port: \"3306\",\n            user: \"Kumudika\",\n            password: process.env.Password_rdsKtestcognitor,\n            database: \"KTestCognito\",\n        };\n    };","triggers":[]}},"rootNode":"cc2663a5-eb9b-46a1-a9e3-6f23cfeb7fa9","openFiles":["01a03728-bdce-43bf-8129-39dd1ef7f7cd"],"currentFileId":"01a03728-bdce-43bf-8129-39dd1ef7f7cd","resources":{"apigusEast1KTestCognitotest1any":{"name":"apigusEast1KTestCognitotest1any","type":"API_GATEWAY","config":{"selectedRegion":"us-east-1","apiMode":1,"apiName":"KTestCognito","apiId":"c0jkqi29o3","endpointType":"EDGE","rootResourceId":"he0aq1pxr8","existingResources":{"/TestCognito":"9e1bbl","/":"he0aq1pxr8"},"resourceMode":0,"resourceName":"test1","resourcePath":"/test1","restMethod":"ANY","proxyIntegration":false,"enableCORS":true,"stageMode":0,"stageName":"prod"},"globallyEditable":true},"cognitocognitoKTestCognito":{"name":"cognitocognitoKTestCognito","type":"CognitoIdentityServiceProvider","config":{"mode":1,"operation":"adminEnableUser","name":"cognitoKTestCognito","arn":"arn:aws:cognito-idp:us-east-1:318300609668:userpool/us-east-1_nnX97LbM7","userPool":{"Id":"us-east-1_nnX97LbM7","Name":"cognitoKTestCognito","LambdaConfig":{},"Policies":{"PasswordPolicy":{"MinimumLength":7,"RequireUppercase":true,"RequireLowercase":true,"RequireNumbers":true,"RequireSymbols":true}},"VerificationMessageTemplate":{"DefaultEmailOption":"CONFIRM_WITH_CODE"},"MfaConfiguration":"OFF","EmailConfiguration":{},"UserPoolTags":{},"AdminCreateUserConfig":{"AllowAdminCreateUserOnly":false,"UnusedAccountValidityDays":7},"UserPoolAddOns":{},"SchemaAttributes":[{"Name":"sub","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":false,"Required":true,"StringAttributeConstraints":{"MinLength":"1","MaxLength":"2048"}},{"Name":"name","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"given_name","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"family_name","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"middle_name","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"nickname","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"preferred_username","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"profile","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"picture","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"website","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"email","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"email_verified","AttributeDataType":"Boolean","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false},{"Name":"gender","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"birthdate","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"10","MaxLength":"10"}},{"Name":"zoneinfo","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"locale","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"phone_number","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"phone_number_verified","AttributeDataType":"Boolean","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false},{"Name":"address","AttributeDataType":"String","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"StringAttributeConstraints":{"MinLength":"0","MaxLength":"2048"}},{"Name":"updated_at","AttributeDataType":"Number","DeveloperOnlyAttribute":false,"Mutable":true,"Required":false,"NumberAttributeConstraints":{"MinValue":"0"}}]},"selected":"us-east-1_nnX97LbM7"},"globallyEditable":true},"rds-ktestcognitor":{"name":"rds-ktestcognitor","type":"RDS","config":{"editMode":false,"operation":1,"rdsInstance":{"rdsEngineType":"mysql","rdsEdition":"mysql","rdsInstanceSpec":{"dbInstanceClass":"db.t2.micro","dbLicenseModel":"general-public-license","dbEngineVersion":"5.7.19"},"rdsSetting":{"instanceIdentifier":"ktestcognitor","masterUsername":"Kumudika","masterPassword":"Kumudika#123"},"rdsDBOptions":{"dbName":"KTestCognito","dbPort":3306},"rdsInstanceArn":"arn:aws:rds:us-east-1:318300609668:db:ktestcognitor","Host":"ktestcognitor.czndmdv7dw6d.us-east-1.rds.amazonaws.com","doesExist":true},"rdsInstanceResources":[],"projectRegion":"us-east-1","mode":1,"additionalFiles":[],"params":{"query":"","inserts":""},"isGlobalEditMode":false,"enableInject":true,"isNewFromGlobal":false},"globallyEditable":true}},"envVariables":[{"lambdaId":"all","varKey":"SIGMA_AWS_ACC_ID","varValue":"","editable":false}],"packageJSON":{"dependencies":{"aws-sdk":{"name":"aws-sdk","version":"2.176.0","notRemovable":true},"slappforge-sdk-aws":{"name":"slappforge-sdk-aws","version":"0.0.4","notRemovable":false}}},"lambdaId":"01a03728-bdce-43bf-8129-39dd1ef7f7cd","additionalFiles":[]},"PROJECT_META":{"projectName":"test1","projectDescription":"test1","projectVersion":"1.0.0","projectRegion":"us-east-1","repoName":"test1","repoUrl":"https://github.com/Kumudikatest/test1","lastSave":1525954654746}}
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "295f1669-614e-44cd-96f2-4aae3d27a338": {
+        "id": "295f1669-614e-44cd-96f2-4aae3d27a338",
+        "parent": null,
+        "name": "test",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4",
+          "a2b72b1d-d8d7-44b8-9dcc-4f900dfe8f74"
+        ],
+        "isRemovable": false,
+        "filePath": "test"
+      },
+      "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4": {
+        "id": "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4",
+        "parent": "295f1669-614e-44cd-96f2-4aae3d27a338",
+        "name": "function.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "test/function.js",
+        "code": "let google = require('googleapis').google;\nlet _auth = require('./Authorizer');\nconst pubsub = google.pubsub('v1');\n\nexports.handler = function (request, response) {\n    pubsub.projects.topics.subscriptions.list({\n        topic: `projects/${process.env.GCP_PROJECT}/topics/SigmaOutgoing`,\n        pageSize: 10\n    })\n        .then(response => {\n            console.log(response.data);  // successful response\n            /*\n            response.data = {\n                \"subscriptions\": [\n                    \"projects/<project>/subscriptions/<subscription-1>\",\n                    \"projects/<project>/subscriptions/<subscription-2>\",\n                    ...\n                ]\n            }\n            */\n        })\n        .catch(err => {\n            console.log(err, err.stack); // an error occurred\n        });\n\n    response.send({ \"message\": \"Successfully executed\" });\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "timeout": 60,
+          "memory": 128,
+          "triggerType": 0
+        },
+        "triggers": [
+          {
+            "resourceName": "http-trigger",
+            "config": {}
+          }
+        ],
+        "testCases": {
+          "2312703c-aa56-4dc6-8a58-f69dbb697718": {
+            "id": "2312703c-aa56-4dc6-8a58-f69dbb697718",
+            "name": "Unnamed event",
+            "functionId": "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      },
+      "85ac4d72-7829-4d89-9a44-4aea7c016861": {
+        "id": "85ac4d72-7829-4d89-9a44-4aea7c016861",
+        "parent": null,
+        "name": "index.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": false,
+        "filePath": "index.js",
+        "code": "// This file is used to register all your cloud functions in GCP.\n// DO NOT EDIT/DELETE THIS, UNLESS YOU KNOW WHAT YOU ARE DOING.\n\nexports.testfunction = require(\"./test/function.js\").handler;"
+      },
+      "a2b72b1d-d8d7-44b8-9dcc-4f900dfe8f74": {
+        "id": "a2b72b1d-d8d7-44b8-9dcc-4f900dfe8f74",
+        "parent": "295f1669-614e-44cd-96f2-4aae3d27a338",
+        "name": "Authorizer.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "test/Authorizer.js",
+        "code": "const google = require(\"googleapis\").google;\n\ngoogle.options({auth: new google.auth.Compute()});"
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "295f1669-614e-44cd-96f2-4aae3d27a338",
+    "openFiles": [
+      "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4"
+    ],
+    "currentFileId": "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4",
+    "resources": {
+      "http-trigger": {
+        "name": "http-trigger",
+        "type": "http-trigger",
+        "config": {}
+      },
+      "pubsubhirudineetest001": {
+        "name": "pubsubhirudineetest001",
+        "type": "pubsub",
+        "config": {
+          "mode": 1,
+          "topic": {
+            "name": "hirudineetest001",
+            "subscriptions": []
+          }
+        }
+      },
+      "pubsubSigmaOutgoing": {
+        "name": "pubsubSigmaOutgoing",
+        "type": "pubsub",
+        "config": {
+          "mode": 1,
+          "topic": {
+            "name": "SigmaOutgoing",
+            "subscriptions": []
+          }
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [],
+    "packageJSON": {
+      "dependencies": {
+        "googleapis": {
+          "name": "googleapis",
+          "language": "javascript",
+          "version": "29.0.0",
+          "dev": false,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "test",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east1",
+    "platform": "GCP",
+    "platformRegions": {},
+    "lastSave": 1559204620819
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "test",
+      "url": "https://github.com/Kumudikatest/test1"
+    }
+  }
+}
