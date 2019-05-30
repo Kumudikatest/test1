@@ -23,7 +23,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "test/function.js",
-        "code": "let google = require('googleapis').google;\nlet _auth = require('./Authorizer');\nconst pubsub = google.pubsub('v1');\n\nexports.handler = function (request, response) {\n    pubsub.projects.topics.subscriptions.list({\n        topic: `projects/${process.env.GCP_PROJECT}/topics/SigmaOutgoing`,\n        pageSize: 10\n    })\n        .then(response => {\n            console.log(response.data);  // successful response\n            /*\n            response.data = {\n                \"subscriptions\": [\n                    \"projects/<project>/subscriptions/<subscription-1>\",\n                    \"projects/<project>/subscriptions/<subscription-2>\",\n                    ...\n                ]\n            }\n            */\n        })\n        .catch(err => {\n            console.log(err, err.stack); // an error occurred\n        });\n\n    response.send({ \"message\": \"Successfully executed\" });\n}",
+        "code": "let google = require('googleapis').google;\nlet _auth = require('./Authorizer');\nconst datastore = google.datastore('v1');\n\nexports.handler = function (request, response) {\n\n    datastore.projects.beginTransaction({\n        projectId: process.env.GCP_PROJECT,\n        resource: {\n            transactionOptions: {\n                readWrite: {}\n            }\n        }\n    }).then(response => {\n        console.log(response.data);           // successful response\n        /*\n        response.data = {\n            \"transaction\": \"<transaction ID>\"\n        }\n        */\n    })\n        .catch(err => {\n            console.log(err, err.stack); // an error occurred\n        });\n\n    response.send({ \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "timeout": 60,
@@ -101,6 +101,11 @@
             "subscriptions": []
           }
         }
+      },
+      "datastore": {
+        "name": "datastore",
+        "type": "datastore",
+        "config": {}
       }
     },
     "customTemplate": {
@@ -127,12 +132,12 @@
     "projectRegion": "us-east1",
     "platform": "GCP",
     "platformRegions": {},
-    "lastSave": 1559204620819
+    "lastSave": 1559204733246
   },
   "VCS_STATE": {
     "provider": "GitHub",
     "repo": {
-      "name": "test",
+      "name": "test1",
       "url": "https://github.com/Kumudikatest/test1"
     }
   }
