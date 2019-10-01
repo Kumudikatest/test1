@@ -22,7 +22,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "test1/lambda.js",
-        "code": "let AWS = require('aws-sdk');\nconst cognito_idp = new AWS.CognitoIdentityServiceProvider();\n\nexports.handler = function (event, context, callback) {\n    cognito_idp.listUsers({\n        UserPoolId: process.env.UserPoolId_cognitowithoutemail,\n        Limit: 10\n    }, function (error, data) {\n        if (error) {\n            // implement error handling logic here\n            throw error;\n        }\n        // your logic goes within this block\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "let AWS = require('aws-sdk');\nconst cognito_idp = new AWS.CognitoIdentityServiceProvider();\n\nexports.handler = function (event, context, callback) {\n    cognito_idp.listUsers({\n        UserPoolId: process.env.UserPoolId_cognitowithoutemail,\n        AttributesToGet: [\"email\"],\n        Limit: 10\n    }, function (error, data) {\n        if (error) {\n            // implement error handling logic here\n            throw error;\n        }\n        // your logic goes within this block\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -45,6 +45,7 @@
         "config": {
           "mode": 0,
           "name": "withoutemail",
+          "arn": "arn:aws:cognito-idp:us-east-1:318300609668:userpool/undefined",
           "userPool": {
             "Name": "withoutemail",
             "isNew": true,
@@ -230,7 +231,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1569923153389
+    "lastSave": 1569923453468
   },
   "VCS_STATE": {
     "provider": "GitHub",
