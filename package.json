@@ -1,8 +1,8 @@
 {
-  "name": "test",
+  "name": "test1",
   "version": "1.0.0",
-  "dependencies": {
-    "googleapis": "29.0.0"
-  },
-  "devDependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "aws-sdk": "2.176.0"
+  }
 }

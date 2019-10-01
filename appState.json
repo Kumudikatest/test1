@@ -1,138 +1,236 @@
 {
   "EDITOR_STATE": {
     "allProjectFiles": {
-      "295f1669-614e-44cd-96f2-4aae3d27a338": {
-        "id": "295f1669-614e-44cd-96f2-4aae3d27a338",
+      "39fb80ed-f8d9-4ebf-b76f-ce1006e96e28": {
+        "id": "39fb80ed-f8d9-4ebf-b76f-ce1006e96e28",
         "parent": null,
-        "name": "test",
+        "name": "test1",
         "type": "DIRECTORY",
         "isDirectory": true,
         "children": [
-          "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4",
-          "a2b72b1d-d8d7-44b8-9dcc-4f900dfe8f74"
+          "19f772d0-b7c7-426f-89b8-cfec0f1c2108"
         ],
         "isRemovable": false,
-        "filePath": "test"
+        "filePath": "test1"
       },
-      "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4": {
-        "id": "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4",
-        "parent": "295f1669-614e-44cd-96f2-4aae3d27a338",
-        "name": "function.js",
+      "19f772d0-b7c7-426f-89b8-cfec0f1c2108": {
+        "id": "19f772d0-b7c7-426f-89b8-cfec0f1c2108",
+        "parent": "39fb80ed-f8d9-4ebf-b76f-ce1006e96e28",
+        "name": "lambda.js",
         "type": "JS_LAMBDA",
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
-        "filePath": "test/function.js",
-        "code": "let google = require('googleapis').google;\nlet _auth = require('./Authorizer');\nconst datastore = google.datastore('v1');\n\nexports.handler = function (request, response) {\n\n    datastore.projects.beginTransaction({\n        projectId: process.env.GCP_PROJECT,\n        resource: {\n            transactionOptions: {\n                readWrite: {}\n            }\n        }\n    }).then(response => {\n        console.log(response.data);           // successful response\n        /*\n        response.data = {\n            \"transaction\": \"<transaction ID>\"\n        }\n        */\n    })\n        .catch(err => {\n            console.log(err, err.stack); // an error occurred\n        });\n\n    response.send({ \"message\": \"Successfully executed\" });\n}",
+        "filePath": "test1/lambda.js",
+        "code": "let AWS = require('aws-sdk');\nconst cognito_idp = new AWS.CognitoIdentityServiceProvider();\n\nexports.handler = function (event, context, callback) {\n    cognito_idp.listUsers({\n        UserPoolId: process.env.UserPoolId_cognitowithoutemail,\n        Limit: 10\n    }, function (error, data) {\n        if (error) {\n            // implement error handling logic here\n            throw error;\n        }\n        // your logic goes within this block\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
+          "handler": "handler",
           "timeout": 60,
           "memory": 128,
-          "triggerType": 0
+          "layers": []
         },
-        "triggers": [
-          {
-            "resourceName": "http-trigger",
-            "config": {}
-          }
-        ],
-        "testCases": {
-          "2312703c-aa56-4dc6-8a58-f69dbb697718": {
-            "id": "2312703c-aa56-4dc6-8a58-f69dbb697718",
-            "name": "Unnamed event",
-            "functionId": "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4",
-            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
-          }
-        }
-      },
-      "85ac4d72-7829-4d89-9a44-4aea7c016861": {
-        "id": "85ac4d72-7829-4d89-9a44-4aea7c016861",
-        "parent": null,
-        "name": "index.js",
-        "type": "JS_FILE",
-        "isDirectory": false,
-        "children": [],
-        "isRemovable": false,
-        "filePath": "index.js",
-        "code": "// This file is used to register all your cloud functions in GCP.\n// DO NOT EDIT/DELETE THIS, UNLESS YOU KNOW WHAT YOU ARE DOING.\n\nexports.testfunction = require(\"./test/function.js\").handler;"
-      },
-      "a2b72b1d-d8d7-44b8-9dcc-4f900dfe8f74": {
-        "id": "a2b72b1d-d8d7-44b8-9dcc-4f900dfe8f74",
-        "parent": "295f1669-614e-44cd-96f2-4aae3d27a338",
-        "name": "Authorizer.js",
-        "type": "JS_FILE",
-        "isDirectory": false,
-        "children": [],
-        "isRemovable": true,
-        "filePath": "test/Authorizer.js",
-        "code": "const google = require(\"googleapis\").google;\n\ngoogle.options({auth: new google.auth.Compute()});"
+        "triggers": []
       }
     },
-    "deletedFiles": [],
-    "rootNode": "295f1669-614e-44cd-96f2-4aae3d27a338",
+    "rootNode": "39fb80ed-f8d9-4ebf-b76f-ce1006e96e28",
     "openFiles": [
-      "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4"
+      "19f772d0-b7c7-426f-89b8-cfec0f1c2108"
     ],
-    "currentFileId": "0fb30175-23d0-4b28-9e2a-ab77a2b1ddd4",
+    "currentFileId": "19f772d0-b7c7-426f-89b8-cfec0f1c2108",
     "resources": {
-      "http-trigger": {
-        "name": "http-trigger",
-        "type": "http-trigger",
-        "config": {}
-      },
-      "pubsubhirudineetest001": {
-        "name": "pubsubhirudineetest001",
-        "type": "pubsub",
+      "cognitowithoutemail": {
+        "name": "cognitowithoutemail",
+        "type": "CognitoIdentityServiceProvider",
         "config": {
-          "mode": 1,
-          "topic": {
-            "name": "hirudineetest001",
-            "subscriptions": []
+          "mode": 0,
+          "name": "withoutemail",
+          "userPool": {
+            "Name": "withoutemail",
+            "isNew": true,
+            "AutoVerifiedAttributes": [],
+            "AliasAttributes": [],
+            "UsernameAttributes": [],
+            "Policies": {
+              "PasswordPolicy": {
+                "MinimumLength": 8,
+                "RequireUppercase": true,
+                "RequireLowercase": true,
+                "RequireNumbers": true,
+                "RequireSymbols": true
+              }
+            },
+            "SchemaAttributes": [
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": false,
+                "Name": "sub",
+                "Required": true
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "address",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "birthdate",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "email",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "family_name",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "gender",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "given_name",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "locale",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "middle_name",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "name",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "nickname",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "phone_number",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "picture",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "preferred_username",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "profile",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "timezone",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "Number",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "updated_at",
+                "Required": false
+              },
+              {
+                "AttributeDataType": "String",
+                "DeveloperOnlyAttribute": false,
+                "Mutable": true,
+                "Name": "website",
+                "Required": false
+              }
+            ],
+            "AdminCreateUserConfig": {
+              "AllowAdminCreateUserOnly": false,
+              "UnusedAccountValidityDays": 7,
+              "InviteMessageTemplate": {}
+            }
           }
         }
-      },
-      "pubsubSigmaOutgoing": {
-        "name": "pubsubSigmaOutgoing",
-        "type": "pubsub",
-        "config": {
-          "mode": 1,
-          "topic": {
-            "name": "SigmaOutgoing",
-            "subscriptions": []
-          }
-        }
-      },
-      "datastore": {
-        "name": "datastore",
-        "type": "datastore",
-        "config": {}
       }
     },
     "customTemplate": {
       "dialect": null,
-      "definitions": {}
+      "definitions": null
     },
-    "envVariables": [],
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
     "packageJSON": {
       "dependencies": {
-        "googleapis": {
-          "name": "googleapis",
+        "aws-sdk": {
+          "name": "aws-sdk",
           "language": "javascript",
-          "version": "29.0.0",
-          "dev": false,
+          "version": "2.176.0",
+          "dev": true,
           "notRemovable": false
         }
       }
     }
   },
   "PROJECT_META": {
-    "projectName": "test",
+    "projectName": "test1",
     "projectDescription": "",
     "projectVersion": "1.0.0",
-    "projectRegion": "us-east1",
-    "platform": "GCP",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1559204733246
+    "lastSave": 1569923153389
   },
   "VCS_STATE": {
     "provider": "GitHub",
